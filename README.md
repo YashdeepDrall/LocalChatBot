@@ -1,6 +1,4 @@
-==========================
 README: LocalChatBot
-==========================
 
 A local Python chatbot built in Python using Ollama for interactive Q&A.
 
@@ -42,15 +40,15 @@ Notes:
 - Ensure you have internet access during first run to fetch models if needed.
 - Always run ingest.py after adding new documents before using chatbot.py.
 
-==========================
-requirements.txt content
-==========================
 
-ollama
-langchain
-langchain-community
-langchain-ollama
-faiss-cpu
-sentence-transformers
-pypdf
+requirements.txt content
+
+
+ollama,
+langchain,
+langchain-community,
+langchain-ollama,
+faiss-cpu,
+sentence-transformers,
+pypdf,
 python-dotenv
