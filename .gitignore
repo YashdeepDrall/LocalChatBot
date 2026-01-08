@@ -74,8 +74,10 @@ Thumbs.db
 *.whl
 *.faiss
 
-# FAISS index
-vectorstore/index.faiss
+# =====================
+# Streamlit
+# =====================
+.streamlit/secrets.toml
 
 # =====================
 # Logs & reports

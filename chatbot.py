@@ -2,6 +2,9 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
+from fastapi import FastAPI
+from pydantic import BaseModel
+import uvicorn
 
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 db = FAISS.load_local("vectorstore", embeddings, allow_dangerous_deserialization=True)
@@ -29,15 +32,31 @@ Consultant Answer:
 
 prompt = ChatPromptTemplate.from_template(template)
 
-print("🔐 Cybersecurity Consultancy Bot Ready\n")
 
-while True:
-    question = input("You: ")
-    if question.lower() == "exit":
-        break
-
-    docs = db.similarity_search(question, k=3)
+def get_context(question, k=3):
+    docs = db.similarity_search(question, k=k)
     context = "\n".join(d.page_content for d in docs)
+    return context, docs
 
+
+def ask(question, k=3):
+    context, docs = get_context(question, k=k)
     response = model.invoke(prompt.format(context=context, question=question))
-    print("\nAI Helper:", response, "\n")
+    return response, context, docs
+
+
+app = FastAPI(title="Cybersecurity Bot API")
+
+class QueryRequest(BaseModel):
+    question: str
+    k: int = 3
+
+@app.post("/ask")
+def ask_endpoint(request: QueryRequest):
+    response, context, docs = ask(request.question, k=request.k)
+    serialized_docs = [{"page_content": d.page_content, "metadata": d.metadata} for d in docs]
+    return {"answer": response, "context": context, "docs": serialized_docs}
+
+if __name__ == "__main__":
+    print("Starting Backend Server...")
+    uvicorn.run(app, host="0.0.0.0", port=8000)
