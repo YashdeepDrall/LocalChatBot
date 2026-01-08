@@ -1,0 +1,6 @@
+Vulnerability Assessment and Penetration Testing (VAPT) is a security testing methodology used to identify weaknesses in systems, networks, and applications.
+
+Vulnerability Assessment focuses on identifying known vulnerabilities using automated tools.
+Penetration Testing simulates real-world attacks to exploit vulnerabilities.
+
+VAPT helps organizations reduce security risks and comply with regulatory requirements.

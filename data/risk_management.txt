@@ -1,0 +1,5 @@
+Cybersecurity risk management involves identifying, analyzing, and mitigating risks to information systems.
+
+Risk assessment includes threat identification, vulnerability analysis, impact evaluation, and risk treatment.
+
+Organizations use risk registers and control frameworks to manage cybersecurity risks effectively.

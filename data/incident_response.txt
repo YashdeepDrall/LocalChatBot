@@ -1,0 +1,11 @@
+Incident response is a structured approach to managing and resolving cybersecurity incidents such as malware infections, ransomware attacks, data breaches, and unauthorized access.
+
+The incident response lifecycle includes:
+Preparation
+Identification
+Containment
+Eradication
+Recovery
+Lessons Learned
+
+Timely incident response minimizes damage and reduces recovery cost.

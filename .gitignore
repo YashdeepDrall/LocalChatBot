@@ -1,0 +1,85 @@
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.python-version
+
+# =====================
+# Virtual environments
+# =====================
+venv/
+ENV/
+env/
+.env/
+.venv/
+
+# Also ignore any virtual environment inside chatbot folder
+chatbot/Lib/
+chatbot/Scripts/
+chatbot/Include/
+
+# =====================
+# Environment / secret files
+# =====================
+.env
+.env.*
+.env.local
+
+# =====================
+# Node
+# =====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# =====================
+# IDEs & Editors
+# =====================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# =====================
+# OS files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Caches & test files
+# =====================
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# =====================
+# Large binaries
+# =====================
+*.dll
+*.exe
+*.bin
+*.whl
+*.faiss
+
+# FAISS index
+vectorstore/index.faiss
+
+# =====================
+# Logs & reports
+# =====================
+*.log
+htmlcov/
+coverage.xml

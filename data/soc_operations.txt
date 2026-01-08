@@ -1,0 +1,7 @@
+A Security Operations Center (SOC) is a centralized unit responsible for monitoring, detecting, and responding to cybersecurity threats.
+
+SOC Tier 1 analysts monitor alerts and perform initial triage.
+SOC Tier 2 analysts investigate incidents in depth.
+SOC Tier 3 analysts handle advanced threats and threat hunting.
+
+SOC operations rely on SIEM, SOAR, and threat intelligence tools.

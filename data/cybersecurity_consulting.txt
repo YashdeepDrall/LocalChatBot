@@ -1,0 +1,3 @@
+Cybersecurity consulting involves helping organizations protect their information systems, networks, and data from cyber threats. Consultants assess security posture, identify vulnerabilities, recommend controls, and assist in implementing security solutions.
+
+Core services include security assessments, risk analysis, compliance audits, policy development, and security awareness training.

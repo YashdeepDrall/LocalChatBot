@@ -1,0 +1,15 @@
+ISO/IEC 27001 is an international standard for Information Security Management Systems (ISMS).
+
+It provides a systematic approach to managing sensitive information through people, processes, and technology.
+
+Key controls include:
+Access control
+Risk management
+Asset management
+Incident management
+Business continuity
+
+Compliance with laws and regulations
+
+ISO/IEC 27001 is widely recognized and used by organizations to demonstrate their commitment to information security.       
+
