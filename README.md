@@ -1,4 +1,4 @@
-README: LocalChatBot
+# README: LocalChatBot
 
 A local Python chatbot built in Python using Ollama for interactive Q&A.
 
@@ -41,7 +41,7 @@ Notes:
 - Always run ingest.py after adding new documents before using chatbot.py.
 
 
-requirements.txt content
+# requirements.txt content
 
 
 ollama,
