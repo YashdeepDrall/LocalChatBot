@@ -1,12 +1,11 @@
+fastapi
+uvicorn
+pymongo
 langchain
 langchain-community
 langchain-ollama
 langchain-core
 faiss-cpu
 sentence-transformers
-pypdf
-python-dotenv
-streamlit
-fastapi
-uvicorn
+pydantic
 requests

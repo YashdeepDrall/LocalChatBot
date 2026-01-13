@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
+from database import store_chat
 
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 db = FAISS.load_local("vectorstore", embeddings, allow_dangerous_deserialization=True)
@@ -63,6 +64,10 @@ class QueryRequest(BaseModel):
 @app.post("/ask")
 def ask_endpoint(request: QueryRequest):
     response, context, docs = ask(request.question, k=request.k)
+    
+    # Store the conversation in MongoDB
+    store_chat(request.question, response, context)
+    
     serialized_docs = [{"page_content": d.page_content, "metadata": d.metadata} for d in docs]
     return {"answer": response, "context": context, "docs": serialized_docs}
 
