@@ -6,7 +6,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
-from database import store_chat
+from database import store_chat, update_chat_feedback
+from analysis import analyze_response
 
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 db = FAISS.load_local("vectorstore", embeddings, allow_dangerous_deserialization=True)
@@ -61,15 +62,30 @@ class QueryRequest(BaseModel):
     question: str
     k: int = 3
 
+class FeedbackRequest(BaseModel):
+    chat_id: str
+    feedback: str
+
+@app.post("/feedback")
+def feedback_endpoint(request: FeedbackRequest):
+    update_chat_feedback(request.chat_id, request.feedback)
+    return {"status": "success"}
+
 @app.post("/ask")
 def ask_endpoint(request: QueryRequest):
     response, context, docs = ask(request.question, k=request.k)
     
-    # Store the conversation in MongoDB
-    store_chat(request.question, response, context)
+    # Analyze the response for specific criteria (apologies, unable to answer, etc.)
+    flags = analyze_response(request.question, response)
+    
+    if flags:
+        response += "\n\nFor further assistance, please contact support at iirissupport@gmail.com"
+    
+    # Store the conversation in MongoDB with flags
+    chat_id = store_chat(request.question, response, context, flags=flags)
     
     serialized_docs = [{"page_content": d.page_content, "metadata": d.metadata} for d in docs]
-    return {"answer": response, "context": context, "docs": serialized_docs}
+    return {"answer": response, "context": context, "docs": serialized_docs, "chat_id": chat_id}
 
 if __name__ == "__main__":
     print("Starting Backend Server...")

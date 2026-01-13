@@ -32,6 +32,14 @@ def run_frontend():
             if "context" in message:
                 with st.expander("View Context"):
                     st.text(message["context"])
+            
+            if message["role"] == "assistant" and "chat_id" in message:
+                if st.button("🚩 Flag as Wrong", key=f"flag_{message['chat_id']}"):
+                    try:
+                        requests.post(f"{api_base.rstrip('/')}/feedback", json={"chat_id": message["chat_id"], "feedback": "wrong_answer"})
+                        st.toast("Feedback sent!", icon="✅")
+                    except Exception as e:
+                        st.error(f"Failed to send feedback: {e}")
 
     if prompt := st.chat_input("What is your question?"):
         st.chat_message("user").markdown(prompt)
@@ -48,16 +56,15 @@ def run_frontend():
                         data = response.json()
                         answer = data["answer"]
                         context = data["context"]
-                        
-                        st.markdown(answer)
-                        with st.expander("View Context"):
-                            st.text(context)
+                        chat_id = data.get("chat_id")
                         
                         st.session_state.messages.append({
                             "role": "assistant", 
                             "content": answer, 
-                            "context": context
+                            "context": context,
+                            "chat_id": chat_id
                         })
+                        st.rerun()
                     else:
                         st.error(f"Error from backend: {response.status_code}")
                 except requests.exceptions.ConnectionError:

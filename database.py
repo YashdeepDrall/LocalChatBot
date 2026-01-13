@@ -1,7 +1,9 @@
 import os
 from datetime import datetime
 from pymongo import MongoClient
+from bson import ObjectId
 from pydantic import BaseModel, Field
+from typing import List, Optional
 
 # 1. Make a db file to connect mongo db
 def get_mongo_collection():
@@ -16,15 +18,29 @@ class ChatRecord(BaseModel):
     question: str
     answer: str
     context: str
+    flags: List[str] = []
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
-def store_chat(question: str, answer: str, context: str):
+def store_chat(question: str, answer: str, context: str, flags: Optional[List[str]] = None) -> str:
     """Stores the chat interaction in MongoDB."""
     try:
+        if flags is None:
+            flags = []
         collection = get_mongo_collection()
-        record = ChatRecord(question=question, answer=answer, context=context)
+        record = ChatRecord(question=question, answer=answer, context=context, flags=flags)
         # Using model_dump() as dict() is deprecated in Pydantic V2
-        collection.insert_one(record.model_dump())
+        result = collection.insert_one(record.model_dump())
         print(f"✅ Chat stored in MongoDB: {record.timestamp}")
+        return str(result.inserted_id)
     except Exception as e:
         print(f"❌ Error storing chat in MongoDB: {e}")
+        return ""
+
+def update_chat_feedback(chat_id: str, feedback: str):
+    """Updates the chat record with user feedback."""
+    try:
+        collection = get_mongo_collection()
+        collection.update_one({"_id": ObjectId(chat_id)}, {"$set": {"user_feedback": feedback}})
+        print(f"✅ Feedback updated for {chat_id}: {feedback}")
+    except Exception as e:
+        print(f"❌ Error updating feedback: {e}")
