@@ -19,6 +19,7 @@ class ChatRecord(BaseModel):
     answer: str
     context: str
     flags: List[str] = []
+    user_feedback: Optional[str] = None
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
 def store_chat(question: str, answer: str, context: str, flags: Optional[List[str]] = None) -> str:

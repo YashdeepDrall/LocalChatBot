@@ -35,5 +35,18 @@ def analyze_response(question: str, answer: str) -> list[str]:
     uncertainty_phrases = ["i am not sure", "i'm not sure", "might be", "could be"]
     if any(phrase in answer_lower for phrase in uncertainty_phrases):
         flags.append("uncertain_answer")
-        
-    return flags
+
+    # 6. Irrelevant Question
+    # This flag is triggered when the chatbot indicates the question is outside its
+    # designated scope of cybersecurity.
+    irrelevant_phrases = [
+        "unrelated to",
+        "not related to",
+        "outside of my scope",
+        "not my area of expertise",
+        "irrelevant to"
+    ]
+    if any(phrase in answer_lower for phrase in irrelevant_phrases):
+        flags.append("irrelevant_question")
+
+    return list(set(flags))

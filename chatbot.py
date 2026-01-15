@@ -77,6 +77,7 @@ def ask_endpoint(request: QueryRequest):
     
     # Analyze the response for specific criteria (apologies, unable to answer, etc.)
     flags = analyze_response(request.question, response)
+    print(f"Flags detected: {flags}")
     
     if flags:
         response += "\n\nFor further assistance, please contact support at iirissupport@gmail.com"
